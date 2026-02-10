@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - KitchenSimulatorTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>KitchenSimulatorTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.restaurant.kitchen.html">com.restaurant.kitchen</a> &gt; KitchenSimulatorTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">2.778s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">deadlockMode_canDeadlock()</td>
+<td class="success">2.068s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">safeMode_completesOrders()</td>
+<td class="success">0.710s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>15:07:40.162 [Test worker    ] INFO  KitchenSimulator               - Using virtual threads
+15:07:40.194 [Test worker    ] INFO  KitchenSimulator               - ========================================
+  RESTAURANT KITCHEN SIMULATOR
+  Mode  : DEADLOCK
+  Chefs : 2
+========================================
+15:07:40.194 [Test worker    ] INFO  KitchenSimulator               - WARNING: Deadlock mode enabled!
+-&gt; Even chefs grab STOVE first, then BLENDER
+-&gt; Odd chefs grab BLENDER first, then STOVE
+-&gt; This WILL cause a deadlock!
+15:07:40.194 [Test worker    ] INFO  KitchenSimulator               -  ========================================&quot;);
+ Opening the kitchen doors...
+========================================
+15:07:40.202 [Test worker    ] INFO  KitchenSimulator               - Kitchen is OPEN! 2 chefs are cooking!
+15:07:40.202 [               ] INFO  Chef                           - [Chef Gordon] Reporting for duty! Ready to cook. Virtual thread:true
+15:07:40.202 [               ] INFO  Chef                           - [Chef Gordon] New order received: Chocolate Lava Cake. Heading to the kitchen...
+15:07:40.202 [               ] INFO  Chef                           - [Chef Julia] Reporting for duty! Ready to cook. Virtual thread:true
+15:07:40.202 [               ] INFO  Chef                           - [Chef Julia] New order received: Grilled Salmon. Heading to the kitchen...
+15:07:40.214 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE to start cooking Chocolate Lava Cake...
+15:07:40.214 [               ] INFO  Chef                           - [Chef Julia] Walking towards the BLENDER to prep Grilled Salmon...
+15:07:40.215 [               ] INFO  Chef                           - [Chef Julia] Got the BLENDER! Now I need the STOVE for Grilled Salmon...
+15:07:40.215 [               ] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now I need the BLENDER for Chocolate Lava Cake...
+15:07:41.225 [               ] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
+15:07:41.225 [               ] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
+15:07:41.229 [               ] INFO  Chef                           - [Chef Julia] Clocking out for the day. Goodbye!
+15:07:41.229 [               ] INFO  Chef                           - [Chef Gordon] Clocking out for the day. Goodbye!
+15:07:41.230 [Test worker    ] INFO  KitchenSimulator               -     ========================================
+    KITCHEN CLOSED
+    Total orders served : 0
+========================================
+15:07:41.246 [Test worker    ] INFO  KitchenSimulator               - Using virtual threads
+15:07:41.246 [Test worker    ] INFO  KitchenSimulator               - ========================================
+  RESTAURANT KITCHEN SIMULATOR
+  Mode  : SAFE
+  Chefs : 2
+========================================
+15:07:41.246 [Test worker    ] INFO  KitchenSimulator               - Safe mode enabled.
+-&gt; All chefs follow the same lock order: STOVE -&gt; BLENDER&quot;);
+-&gt; No deadlock possible.
+15:07:41.246 [Test worker    ] INFO  KitchenSimulator               -  ========================================&quot;);
+ Opening the kitchen doors...
+========================================
+15:07:41.246 [Test worker    ] INFO  KitchenSimulator               - Kitchen is OPEN! 2 chefs are cooking!
+15:07:41.246 [               ] INFO  Chef                           - [Chef Julia] Reporting for duty! Ready to cook. Virtual thread:true
+15:07:41.246 [               ] INFO  Chef                           - [Chef Gordon] Reporting for duty! Ready to cook. Virtual thread:true
+15:07:41.257 [               ] INFO  Chef                           - [Chef Julia] New order received: Caesar Salad. Heading to the kitchen...
+15:07:41.258 [               ] INFO  Chef                           - [Chef Gordon] New order received: Grilled Salmon. Heading to the kitchen...
+15:07:41.258 [               ] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
+15:07:41.258 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
+15:07:41.258 [               ] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
+15:07:41.259 [               ] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Caesar Salad now!
+15:07:41.388 [               ] INFO  Chef                           - [Chef Julia] Ding ding! Caesar Salad is READY! (Orders served today: 1)
+15:07:41.389 [               ] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
+15:07:41.389 [               ] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
+15:07:41.389 [               ] INFO  Chef                           - [Chef Julia] New order received: Grilled Salmon. Heading to the kitchen...
+15:07:41.389 [               ] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Grilled Salmon now!
+15:07:41.389 [               ] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
+15:07:41.515 [               ] INFO  Chef                           - [Chef Gordon] Ding ding! Grilled Salmon is READY! (Orders served today: 2)
+15:07:41.515 [               ] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
+15:07:41.515 [               ] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
+15:07:41.517 [               ] INFO  Chef                           - [Chef Gordon] New order received: Chocolate Lava Cake. Heading to the kitchen...
+15:07:41.517 [               ] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Grilled Salmon now!
+15:07:41.517 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
+15:07:41.646 [               ] INFO  Chef                           - [Chef Julia] Ding ding! Grilled Salmon is READY! (Orders served today: 3)
+15:07:41.646 [               ] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
+15:07:41.646 [               ] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
+15:07:41.646 [               ] INFO  Chef                           - [Chef Julia] New order received: Beef Wellington. Heading to the kitchen...
+15:07:41.646 [               ] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Chocolate Lava Cake now!
+15:07:41.646 [               ] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
+15:07:41.774 [               ] INFO  Chef                           - [Chef Gordon] Ding ding! Chocolate Lava Cake is READY! (Orders served today: 4)
+15:07:41.774 [               ] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
+15:07:41.774 [               ] INFO  Chef                           - [Chef Gordon] New order received: Grilled Salmon. Heading to the kitchen...
+15:07:41.774 [               ] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
+15:07:41.774 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
+15:07:41.775 [               ] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Beef Wellington now!
+15:07:41.890 [               ] INFO  Chef                           - [Chef Julia] Ding ding! Beef Wellington is READY! (Orders served today: 5)
+15:07:41.891 [               ] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
+15:07:41.891 [               ] INFO  Chef                           - [Chef Julia] New order received: Chocolate Lava Cake. Heading to the kitchen...
+15:07:41.891 [               ] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
+15:07:41.891 [               ] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
+15:07:41.892 [               ] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Grilled Salmon now!
+15:07:41.958 [               ] INFO  Chef                           - [Chef Julia] Clocking out for the day. Goodbye!
+15:07:41.958 [               ] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
+15:07:41.962 [               ] INFO  Chef                           - [Chef Gordon] Clocking out for the day. Goodbye!
+15:07:41.962 [Test worker    ] INFO  KitchenSimulator               -     ========================================
+    KITCHEN CLOSED
+    Total orders served : 5
+========================================
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.5</a> at Feb 10, 2026, 3:07:42 PM</p>
+</div>
+</div>
+</body>
+</html>

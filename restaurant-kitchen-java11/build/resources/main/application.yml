@@ -1,5 +1,10 @@
 server:
   port: 8080
 
+spring:
+  jackson:
+    serialization:
+      indent-output: true
+
 kitchen:
   chef-count: 2

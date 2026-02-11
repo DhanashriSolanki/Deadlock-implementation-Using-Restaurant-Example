@@ -4,7 +4,6 @@ import com.restaurant.kitchen.model.SimulationMode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -16,7 +15,7 @@ public class Chef implements Runnable {
 
     private static final String[] CHEF_NAMES = {"Gordon", "Julia", "Marco", "Heston"};
 
-    private static final List<String> DISHES = Arrays.asList(
+    private static final List<String> DISHES = List.of(
             "Spaghetti Carbonara",
             "Mushroom Risotto",
             "Grilled Salmon",
@@ -53,7 +52,7 @@ public class Chef implements Runnable {
 
     @Override
     public void run() {
-        logger.info("[Chef {}] Reporting for duty! Ready to cook.", name);
+        logger.info("[Chef {}] Reporting for duty! Ready to cook. Virtual thread:{}", name,Thread.currentThread().isVirtual());
         while (running.get()) {
             try {
                 processOrder();
@@ -76,15 +75,57 @@ public class Chef implements Runnable {
 
         logger.info("[Chef {}] New order received: {}. Heading to the kitchen...", name, dish);
 
-        if (mode == SimulationMode.DEADLOCK) {
-            if (id % 2 == 0) {
-                // Even chef: grabs Stove first, then Blender
-                logger.info("[Chef {}] Walking towards the STOVE to start cooking {}...", name, dish);
+        switch(mode){
+            case DEADLOCK->{
+                if (id % 2 == 0) {
+                    // Even chef: grabs Stove first, then Blender
+                    logger.info("[Chef {}] Walking towards the STOVE to start cooking {}...", name, dish);
+                    stoveLock.lockInterruptibly();
+                    logger.info("[Chef {}] Got the STOVE! Now I need the BLENDER for {}...", name, dish);
+                    try {
+                        blenderLock.lockInterruptibly();
+                        logger.info("[Chef {}] Got the BLENDER too! Making {} now!", name, dish);
+                        try {
+                            stove.use();
+                            blender.use();
+                            int total = ordersCompleted.incrementAndGet();
+                            logger.info("[Chef {}] Ding ding! {} is READY! (Orders served today: {})", name, dish, total);
+                        } finally {
+                            blenderLock.unlock();
+                        }
+                    } finally {
+                        stoveLock.unlock();
+                        logger.info("[Chef {}] Released STOVE and BLENDER. Ready for next order!", name);
+                    }
+                } else {
+                    // Odd chef: grabs Blender first, then Stove (OPPOSITE ORDER = DEADLOCK!)
+                    logger.info("[Chef {}] Walking towards the BLENDER to prep {}...", name, dish);
+                    blenderLock.lockInterruptibly();
+                    logger.info("[Chef {}] Got the BLENDER! Now I need the STOVE for {}...", name, dish);
+                    try {
+                        stoveLock.lockInterruptibly();
+                        logger.info("[Chef {}] Got the STOVE too! Making {} now!", name, dish);
+                        try {
+                            blender.use();
+                            stove.use();
+                            int total = ordersCompleted.incrementAndGet();
+                            logger.info("[Chef {}] Ding ding! {} is READY! (Orders served today: {})", name, dish, total);
+                        } finally {
+                            stoveLock.unlock();
+                        }
+                    } finally {
+                        blenderLock.unlock();
+                        logger.info("[Chef {}] Released STOVE and BLENDER. Ready for next order!", name);
+                    }
+                }
+            }
+            case SAFE->{
+                logger.info("[Chef {}] Walking towards the STOVE first (safe protocol)...", name);
                 stoveLock.lockInterruptibly();
-                logger.info("[Chef {}] Got the STOVE! Now I need the BLENDER for {}...", name, dish);
+                logger.info("[Chef {}] Got the STOVE! Now grabbing the BLENDER...", name);
                 try {
                     blenderLock.lockInterruptibly();
-                    logger.info("[Chef {}] Got the BLENDER too! Making {} now!", name, dish);
+                    logger.info("[Chef {}] Got the BLENDER! Cooking {} now!", name, dish);
                     try {
                         stove.use();
                         blender.use();
@@ -97,47 +138,10 @@ public class Chef implements Runnable {
                     stoveLock.unlock();
                     logger.info("[Chef {}] Released STOVE and BLENDER. Ready for next order!", name);
                 }
-            } else {
-                // Odd chef: grabs Blender first, then Stove (OPPOSITE ORDER = DEADLOCK!)
-                logger.info("[Chef {}] Walking towards the BLENDER to prep {}...", name, dish);
-                blenderLock.lockInterruptibly();
-                logger.info("[Chef {}] Got the BLENDER! Now I need the STOVE for {}...", name, dish);
-                try {
-                    stoveLock.lockInterruptibly();
-                    logger.info("[Chef {}] Got the STOVE too! Making {} now!", name, dish);
-                    try {
-                        blender.use();
-                        stove.use();
-                        int total = ordersCompleted.incrementAndGet();
-                        logger.info("[Chef {}] Ding ding! {} is READY! (Orders served today: {})", name, dish, total);
-                    } finally {
-                        stoveLock.unlock();
-                    }
-                } finally {
-                    blenderLock.unlock();
-                    logger.info("[Chef {}] Released STOVE and BLENDER. Ready for next order!", name);
-                }
-            }
-        } else {
-            // SAFE: All chefs take Stove -> Blender (consistent order, no deadlock)
-            logger.info("[Chef {}] Walking towards the STOVE first (safe protocol)...", name);
-            stoveLock.lockInterruptibly();
-            logger.info("[Chef {}] Got the STOVE! Now grabbing the BLENDER...", name);
-            try {
-                blenderLock.lockInterruptibly();
-                logger.info("[Chef {}] Got the BLENDER! Cooking {} now!", name, dish);
-                try {
-                    stove.use();
-                    blender.use();
-                    int total = ordersCompleted.incrementAndGet();
-                    logger.info("[Chef {}] Ding ding! {} is READY! (Orders served today: {})", name, dish, total);
-                } finally {
-                    blenderLock.unlock();
-                }
-            } finally {
-                stoveLock.unlock();
-                logger.info("[Chef {}] Released STOVE and BLENDER. Ready for next order!", name);
             }
         }
+
+
+
     }
 }

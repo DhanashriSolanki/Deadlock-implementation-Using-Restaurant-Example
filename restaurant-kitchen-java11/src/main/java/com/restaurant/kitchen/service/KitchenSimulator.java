@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
@@ -33,7 +33,8 @@ public class KitchenSimulator {
     private SimulationMode mode = SimulationMode.DEADLOCK;
     private int chefCount = 2;
     private final List<String> chefNames = new ArrayList<>();
-
+    private int lastOrderCount=0;
+    private long lastCheckTime=0;
     public KitchenSimulator(Stove stove, Blender blender) {
         this.stove = stove;
         this.blender = blender;
@@ -48,28 +49,33 @@ public class KitchenSimulator {
         this.ordersCompleted.set(0);
         this.runningFlag = new AtomicBoolean(true);
         this.chefNames.clear();
-        this.executor = Executors.newFixedThreadPool(chefCount);
+        this.executor = Executors.newVirtualThreadPerTaskExecutor();
 
-        logger.info("========================================");
-        logger.info("  RESTAURANT KITCHEN SIMULATOR");
-        logger.info("  Mode  : {}", mode);
-        logger.info("  Chefs : {}", chefCount);
-        logger.info("========================================");
+        logger.info("Using virtual threads");
+        logger.info("""
+        ========================================
+          RESTAURANT KITCHEN SIMULATOR
+          Mode  : {},
+          Chefs : {}
+        ========================================""", mode, chefCount);
 
         if (mode == SimulationMode.DEADLOCK) {
-            logger.info("WARNING: Deadlock mode enabled!");
-            logger.info("  -> Even chefs grab STOVE first, then BLENDER");
-            logger.info("  -> Odd chefs grab BLENDER first, then STOVE");
-            logger.info("  -> This WILL cause a deadlock!");
+            logger.info("""
+            WARNING: Deadlock mode enabled!
+              -> Even chefs grab STOVE first, then BLENDER
+              -> Odd chefs grab BLENDER first, then STOVE
+              -> This WILL cause a deadlock!""");
         } else {
-            logger.info("Safe mode enabled.");
-            logger.info("  -> All chefs follow the same lock order: STOVE -> BLENDER");
-            logger.info("  -> No deadlock possible.");
+            logger.info("""
+            Safe mode enabled.
+            -> All chefs follow the same lock order: STOVE -> BLENDER
+             -> No deadlock possible.""");
         }
 
-        logger.info("========================================");
-        logger.info("  Opening the kitchen doors...");
-        logger.info("========================================");
+        logger.info("""
+        ========================================
+          Opening the kitchen doors...
+        ========================================""");
 
         for (int i = 0; i < chefCount; i++) {
             Chef chef = new Chef(i, stove, blender, mode, ordersCompleted, runningFlag);
@@ -97,10 +103,11 @@ public class KitchenSimulator {
                 Thread.currentThread().interrupt();
             }
         }
-        logger.info("========================================");
-        logger.info("  KITCHEN CLOSED");
-        logger.info("  Total orders served : {}", ordersCompleted.get());
-        logger.info("========================================");
+        logger.info("""
+        ========================================
+          KITCHEN CLOSED");
+          Total orders served : {}
+        ========================================""", ordersCompleted.get());
     }
 
     public KitchenStatus getStatus() {
@@ -130,9 +137,22 @@ public class KitchenSimulator {
 
     private boolean detectDeadlock() {
         if (!running) return false;
-        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
-        long[] deadlockedThreads = bean.findDeadlockedThreads();
-        return deadlockedThreads != null && deadlockedThreads.length > 0;
+        long now=System.currentTimeMillis();
+        int currentOrders=ordersCompleted.get();
+
+        if(lastCheckTime==0){
+            lastCheckTime=now;
+            lastOrderCount=currentOrders;
+            return false;
+        }
+        if(now-lastCheckTime>2000){
+            if(currentOrders==lastOrderCount){
+                return true;
+            }
+            lastOrderCount=currentOrders;
+            lastCheckTime=now;
+        }
+        return false;
     }
 
     @PreDestroy

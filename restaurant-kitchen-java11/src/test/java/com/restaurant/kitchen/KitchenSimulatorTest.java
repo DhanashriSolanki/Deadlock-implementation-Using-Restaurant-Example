@@ -5,23 +5,27 @@ import com.restaurant.kitchen.model.SimulationMode;
 import com.restaurant.kitchen.resources.Blender;
 import com.restaurant.kitchen.resources.Stove;
 import com.restaurant.kitchen.service.KitchenSimulator;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class KitchenSimulatorTest {
 
     private KitchenSimulator simulator;
 
-    @After
+    @AfterEach
     public void tearDown() {
         if (simulator != null) {
             simulator.stop();
         }
     }
 
-    @Test(timeout = 5000)
+    @Test
+    @Timeout(value=5,unit=TimeUnit.SECONDS)
     public void safeMode_completesOrders() throws InterruptedException {
         Stove stove = new Stove();
         Blender blender = new Blender();
@@ -31,14 +35,15 @@ public class KitchenSimulatorTest {
         Thread.sleep(700);
         KitchenStatus status = simulator.getStatus();
 
-        assertFalse("Safe mode should never deadlock", status.isDeadlocked());
-        assertTrue("Should have completed 0 or more orders", status.getOrdersCompleted() >= 0);
-        assertNotNull("Status message should not be null", status.getMessage());
-        assertNotNull("Chef names should not be null", status.getChefNames());
-        assertEquals("Should have 2 chefs", 2, status.getChefNames().size());
+        assertFalse(status.deadlocked(),"Safe mode should never deadlock");
+        assertTrue( status.ordersCompleted() >= 0,"Should have completed 0 or more orders");
+        assertNotNull( status.message(),"Status message should not be null");
+        assertNotNull( status.chefNames(),"Chef names should not be null");
+        assertEquals( 2, status.chefNames().size(),"Should have 2 chefs");
     }
 
-    @Test(timeout = 5000)
+    @Test
+    @Timeout(value=5,unit=TimeUnit.SECONDS)
     public void deadlockMode_canDeadlock() throws InterruptedException {
         Stove stove = new Stove();
         Blender blender = new Blender();
@@ -48,8 +53,8 @@ public class KitchenSimulatorTest {
         Thread.sleep(1000);
         KitchenStatus status = simulator.getStatus();
 
-        assertTrue("Should be running or deadlocked",
-                status.isRunning() || status.isDeadlocked());
-        assertNotNull("Status message should not be null", status.getMessage());
+        assertTrue(
+                status.running() || status.deadlocked(),"Should be running or deadlocked");
+        assertNotNull( status.message(),"Status message should not be null");
     }
 }

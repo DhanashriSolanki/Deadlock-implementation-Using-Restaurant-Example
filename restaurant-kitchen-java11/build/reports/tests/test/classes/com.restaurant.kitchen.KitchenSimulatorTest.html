@@ -3,14 +3,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=edge"/>
-<title>Test results - Class com.restaurant.kitchen.KitchenSimulatorTest</title>
+<title>Test results - KitchenSimulatorTest</title>
 <link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
 <link href="../css/style.css" rel="stylesheet" type="text/css"/>
 <script src="../js/report.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="content">
-<h1>Class com.restaurant.kitchen.KitchenSimulatorTest</h1>
+<h1>KitchenSimulatorTest</h1>
 <div class="breadcrumbs">
 <a href="../index.html">all</a> &gt; 
 <a href="../packages/com.restaurant.kitchen.html">com.restaurant.kitchen</a> &gt; KitchenSimulatorTest</div>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">3.513s</div>
+<div class="counter">2.830s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,13 +78,13 @@
 </tr>
 </thead>
 <tr>
-<td class="success">deadlockMode_canDeadlock</td>
-<td class="success">2.782s</td>
+<td class="success">deadlockMode_canDeadlock()</td>
+<td class="success">2.111s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">safeMode_completesOrders</td>
-<td class="success">0.731s</td>
+<td class="success">safeMode_completesOrders()</td>
+<td class="success">0.719s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -92,139 +92,94 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>11:16:37.792 [Time-limited test] INFO  KitchenSimulator               - ========================================
-11:16:37.814 [Time-limited test] INFO  KitchenSimulator               -   RESTAURANT KITCHEN SIMULATOR
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               -   Mode  : DEADLOCK
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               -   Chefs : 2
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               - ========================================
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               - WARNING: Deadlock mode enabled!
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               -   -&gt; Even chefs grab STOVE first, then BLENDER
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               -   -&gt; Odd chefs grab BLENDER first, then STOVE
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               -   -&gt; This WILL cause a deadlock!
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               - ========================================
-11:16:37.833 [Time-limited test] INFO  KitchenSimulator               -   Opening the kitchen doors...
-11:16:37.845 [Time-limited test] INFO  KitchenSimulator               - ========================================
-11:16:37.852 [Time-limited test] INFO  KitchenSimulator               - Kitchen is OPEN! 2 chefs are cooking!
-11:16:37.852 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Reporting for duty! Ready to cook.
-11:16:37.855 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Reporting for duty! Ready to cook.
-11:16:37.855 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] New order received: Pad Thai. Heading to the kitchen...
-11:16:37.856 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Walking towards the BLENDER to prep Pad Thai...
-11:16:37.856 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the BLENDER! Now I need the STOVE for Pad Thai...
-11:16:37.856 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the STOVE too! Making Pad Thai now!
-11:16:37.855 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Pad Thai. Heading to the kitchen...
-11:16:37.857 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE to start cooking Pad Thai...
-11:16:37.971 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Ding ding! Pad Thai is READY! (Orders served today: 1)
-11:16:37.972 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
-11:16:37.972 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now I need the BLENDER for Pad Thai...
-11:16:37.972 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Got the BLENDER too! Making Pad Thai now!
-11:16:37.972 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] New order received: Caesar Salad. Heading to the kitchen...
-11:16:37.974 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Walking towards the BLENDER to prep Caesar Salad...
-11:16:38.101 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Ding ding! Pad Thai is READY! (Orders served today: 2)
-11:16:38.101 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the BLENDER! Now I need the STOVE for Caesar Salad...
-11:16:38.101 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
-11:16:38.101 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the STOVE too! Making Caesar Salad now!
-11:16:38.101 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Caesar Salad. Heading to the kitchen...
-11:16:38.101 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE to start cooking Caesar Salad...
-11:16:38.225 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Ding ding! Caesar Salad is READY! (Orders served today: 3)
-11:16:38.228 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
-11:16:38.228 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now I need the BLENDER for Caesar Salad...
-11:16:38.228 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] New order received: Spaghetti Carbonara. Heading to the kitchen...
-11:16:38.228 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Got the BLENDER too! Making Caesar Salad now!
-11:16:38.228 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Walking towards the BLENDER to prep Spaghetti Carbonara...
-11:16:38.345 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Ding ding! Caesar Salad is READY! (Orders served today: 4)
-11:16:38.351 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
-11:16:38.351 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the BLENDER! Now I need the STOVE for Spaghetti Carbonara...
-11:16:38.353 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Beef Wellington. Heading to the kitchen...
-11:16:38.353 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the STOVE too! Making Spaghetti Carbonara now!
-11:16:38.353 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE to start cooking Beef Wellington...
-11:16:38.474 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Ding ding! Spaghetti Carbonara is READY! (Orders served today: 5)
-11:16:38.474 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
-11:16:38.474 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now I need the BLENDER for Beef Wellington...
-11:16:38.474 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Got the BLENDER too! Making Beef Wellington now!
-11:16:38.474 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] New order received: Chocolate Lava Cake. Heading to the kitchen...
-11:16:38.474 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Walking towards the BLENDER to prep Chocolate Lava Cake...
-11:16:38.602 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Ding ding! Beef Wellington is READY! (Orders served today: 6)
-11:16:38.602 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
-11:16:38.602 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the BLENDER! Now I need the STOVE for Chocolate Lava Cake...
-11:16:38.602 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Chocolate Lava Cake. Heading to the kitchen...
-11:16:38.602 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the STOVE too! Making Chocolate Lava Cake now!
-11:16:38.602 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE to start cooking Chocolate Lava Cake...
-11:16:38.730 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Ding ding! Chocolate Lava Cake is READY! (Orders served today: 7)
-11:16:38.733 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now I need the BLENDER for Chocolate Lava Cake...
-11:16:38.733 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
-11:16:38.733 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Got the BLENDER too! Making Chocolate Lava Cake now!
-11:16:38.733 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] New order received: Grilled Salmon. Heading to the kitchen...
-11:16:38.733 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Walking towards the BLENDER to prep Grilled Salmon...
-11:16:38.847 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Ding ding! Chocolate Lava Cake is READY! (Orders served today: 8)
-11:16:38.847 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
-11:16:38.847 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the BLENDER! Now I need the STOVE for Grilled Salmon...
-11:16:38.847 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Tomato Basil Soup. Heading to the kitchen...
-11:16:38.847 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Got the STOVE too! Making Grilled Salmon now!
-11:16:38.847 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE to start cooking Tomato Basil Soup...
-11:16:38.879 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
-11:16:38.879 [pool-2-thread-1] INFO  Chef                           - [Chef Gordon] Clocking out for the day. Goodbye!
-11:16:38.879 [pool-2-thread-2] INFO  Chef                           - [Chef Julia] Clocking out for the day. Goodbye!
-11:16:38.879 [Test worker    ] INFO  KitchenSimulator               - ========================================
-11:16:38.879 [Test worker    ] INFO  KitchenSimulator               -   KITCHEN CLOSED
-11:16:38.879 [Test worker    ] INFO  KitchenSimulator               -   Total orders served : 8
-11:16:38.879 [Test worker    ] INFO  KitchenSimulator               - ========================================
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               - ========================================
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               -   RESTAURANT KITCHEN SIMULATOR
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               -   Mode  : SAFE
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               -   Chefs : 2
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               - ========================================
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               - Safe mode enabled.
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               -   -&gt; All chefs follow the same lock order: STOVE -&gt; BLENDER
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               -   -&gt; No deadlock possible.
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               - ========================================
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               -   Opening the kitchen doors...
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               - ========================================
-11:16:38.899 [Time-limited test] INFO  KitchenSimulator               - Kitchen is OPEN! 2 chefs are cooking!
-11:16:38.899 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Reporting for duty! Ready to cook.
-11:16:38.899 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Reporting for duty! Ready to cook.
-11:16:38.899 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Tomato Basil Soup. Heading to the kitchen...
-11:16:38.899 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] New order received: Chocolate Lava Cake. Heading to the kitchen...
-11:16:38.899 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
-11:16:38.899 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
-11:16:38.899 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
-11:16:38.899 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Tomato Basil Soup now!
-11:16:39.030 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Ding ding! Tomato Basil Soup is READY! (Orders served today: 1)
-11:16:39.030 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
-11:16:39.030 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
-11:16:39.030 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Chocolate Lava Cake now!
-11:16:39.030 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Spaghetti Carbonara. Heading to the kitchen...
-11:16:39.030 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
-11:16:39.157 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Ding ding! Chocolate Lava Cake is READY! (Orders served today: 2)
-11:16:39.157 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
-11:16:39.157 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
-11:16:39.158 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] New order received: Mushroom Risotto. Heading to the kitchen...
-11:16:39.158 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Spaghetti Carbonara now!
-11:16:39.158 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
-11:16:39.276 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Ding ding! Spaghetti Carbonara is READY! (Orders served today: 3)
-11:16:39.277 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
-11:16:39.277 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
-11:16:39.277 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Caesar Salad. Heading to the kitchen...
-11:16:39.277 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Mushroom Risotto now!
-11:16:39.277 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
-11:16:39.391 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Ding ding! Mushroom Risotto is READY! (Orders served today: 4)
-11:16:39.391 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
-11:16:39.391 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
-11:16:39.391 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Caesar Salad now!
-11:16:39.391 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] New order received: Beef Wellington. Heading to the kitchen...
-11:16:39.391 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
-11:16:39.518 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Ding ding! Caesar Salad is READY! (Orders served today: 5)
-11:16:39.519 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
-11:16:39.519 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
-11:16:39.519 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] New order received: Tomato Basil Soup. Heading to the kitchen...
-11:16:39.519 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Beef Wellington now!
-11:16:39.519 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
-11:16:39.623 [pool-3-thread-1] INFO  Chef                           - [Chef Gordon] Clocking out for the day. Goodbye!
-11:16:39.623 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
-11:16:39.625 [pool-3-thread-2] INFO  Chef                           - [Chef Julia] Clocking out for the day. Goodbye!
-11:16:39.625 [Test worker    ] INFO  KitchenSimulator               - ========================================
-11:16:39.625 [Test worker    ] INFO  KitchenSimulator               -   KITCHEN CLOSED
-11:16:39.625 [Test worker    ] INFO  KitchenSimulator               -   Total orders served : 5
-11:16:39.625 [Test worker    ] INFO  KitchenSimulator               - ========================================
+<pre>10:40:10.951 [Test worker    ] INFO  KitchenSimulator               - Using virtual threads
+10:40:10.991 [Test worker    ] INFO  KitchenSimulator               - ========================================
+  RESTAURANT KITCHEN SIMULATOR
+  Mode  : DEADLOCK,
+  Chefs : 2
+========================================
+10:40:10.992 [Test worker    ] INFO  KitchenSimulator               - WARNING: Deadlock mode enabled!
+  -&gt; Even chefs grab STOVE first, then BLENDER
+  -&gt; Odd chefs grab BLENDER first, then STOVE
+  -&gt; This WILL cause a deadlock!
+10:40:10.993 [Test worker    ] INFO  KitchenSimulator               - ========================================
+  Opening the kitchen doors...
+========================================
+10:40:11.006 [Test worker    ] INFO  KitchenSimulator               - Kitchen is OPEN! 2 chefs are cooking!
+10:40:11.011 [               ] INFO  Chef                           - [Chef Julia] Reporting for duty! Ready to cook. Virtual thread:true
+10:40:11.011 [               ] INFO  Chef                           - [Chef Gordon] Reporting for duty! Ready to cook. Virtual thread:true
+10:40:11.012 [               ] INFO  Chef                           - [Chef Julia] New order received: Grilled Salmon. Heading to the kitchen...
+10:40:11.012 [               ] INFO  Chef                           - [Chef Gordon] New order received: Chocolate Lava Cake. Heading to the kitchen...
+10:40:11.018 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE to start cooking Chocolate Lava Cake...
+10:40:11.018 [               ] INFO  Chef                           - [Chef Julia] Walking towards the BLENDER to prep Grilled Salmon...
+10:40:11.019 [               ] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now I need the BLENDER for Chocolate Lava Cake...
+10:40:11.019 [               ] INFO  Chef                           - [Chef Julia] Got the BLENDER! Now I need the STOVE for Grilled Salmon...
+10:40:12.024 [               ] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
+10:40:12.024 [               ] INFO  Chef                           - [Chef Gordon] Clocking out for the day. Goodbye!
+10:40:12.024 [               ] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
+10:40:12.024 [               ] INFO  Chef                           - [Chef Julia] Clocking out for the day. Goodbye!
+10:40:12.024 [Test worker    ] INFO  KitchenSimulator               - ========================================
+  KITCHEN CLOSED&quot;);
+  Total orders served : 0
+========================================
+10:40:12.032 [Test worker    ] INFO  KitchenSimulator               - Using virtual threads
+10:40:12.032 [Test worker    ] INFO  KitchenSimulator               - ========================================
+  RESTAURANT KITCHEN SIMULATOR
+  Mode  : SAFE,
+  Chefs : 2
+========================================
+10:40:12.032 [Test worker    ] INFO  KitchenSimulator               - Safe mode enabled.
+-&gt; All chefs follow the same lock order: STOVE -&gt; BLENDER
+ -&gt; No deadlock possible.
+10:40:12.032 [Test worker    ] INFO  KitchenSimulator               - ========================================
+  Opening the kitchen doors...
+========================================
+10:40:12.033 [Test worker    ] INFO  KitchenSimulator               - Kitchen is OPEN! 2 chefs are cooking!
+10:40:12.033 [               ] INFO  Chef                           - [Chef Gordon] Reporting for duty! Ready to cook. Virtual thread:true
+10:40:12.033 [               ] INFO  Chef                           - [Chef Gordon] New order received: Caesar Salad. Heading to the kitchen...
+10:40:12.033 [               ] INFO  Chef                           - [Chef Julia] Reporting for duty! Ready to cook. Virtual thread:true
+10:40:12.033 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
+10:40:12.033 [               ] INFO  Chef                           - [Chef Julia] New order received: Grilled Salmon. Heading to the kitchen...
+10:40:12.033 [               ] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
+10:40:12.033 [               ] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
+10:40:12.034 [               ] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Caesar Salad now!
+10:40:12.157 [               ] INFO  Chef                           - [Chef Gordon] Ding ding! Caesar Salad is READY! (Orders served today: 1)
+10:40:12.157 [               ] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
+10:40:12.157 [               ] INFO  Chef                           - [Chef Gordon] New order received: Caesar Salad. Heading to the kitchen...
+10:40:12.157 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
+10:40:12.157 [               ] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
+10:40:12.158 [               ] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Grilled Salmon now!
+10:40:12.283 [               ] INFO  Chef                           - [Chef Julia] Ding ding! Grilled Salmon is READY! (Orders served today: 2)
+10:40:12.283 [               ] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
+10:40:12.283 [               ] INFO  Chef                           - [Chef Julia] New order received: Pad Thai. Heading to the kitchen...
+10:40:12.283 [               ] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
+10:40:12.283 [               ] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
+10:40:12.283 [               ] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Caesar Salad now!
+10:40:12.404 [               ] INFO  Chef                           - [Chef Gordon] Ding ding! Caesar Salad is READY! (Orders served today: 3)
+10:40:12.405 [               ] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
+10:40:12.405 [               ] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
+10:40:12.405 [               ] INFO  Chef                           - [Chef Gordon] New order received: Tomato Basil Soup. Heading to the kitchen...
+10:40:12.405 [               ] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Pad Thai now!
+10:40:12.405 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
+10:40:12.529 [               ] INFO  Chef                           - [Chef Julia] Ding ding! Pad Thai is READY! (Orders served today: 4)
+10:40:12.529 [               ] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
+10:40:12.529 [               ] INFO  Chef                           - [Chef Julia] New order received: Tomato Basil Soup. Heading to the kitchen...
+10:40:12.529 [               ] INFO  Chef                           - [Chef Gordon] Got the STOVE! Now grabbing the BLENDER...
+10:40:12.530 [               ] INFO  Chef                           - [Chef Julia] Walking towards the STOVE first (safe protocol)...
+10:40:12.530 [               ] INFO  Chef                           - [Chef Gordon] Got the BLENDER! Cooking Tomato Basil Soup now!
+10:40:12.655 [               ] INFO  Chef                           - [Chef Gordon] Ding ding! Tomato Basil Soup is READY! (Orders served today: 5)
+10:40:12.655 [               ] INFO  Chef                           - [Chef Gordon] Released STOVE and BLENDER. Ready for next order!
+10:40:12.656 [               ] INFO  Chef                           - [Chef Gordon] New order received: Beef Wellington. Heading to the kitchen...
+10:40:12.656 [               ] INFO  Chef                           - [Chef Julia] Got the STOVE! Now grabbing the BLENDER...
+10:40:12.656 [               ] INFO  Chef                           - [Chef Gordon] Walking towards the STOVE first (safe protocol)...
+10:40:12.656 [               ] INFO  Chef                           - [Chef Julia] Got the BLENDER! Cooking Tomato Basil Soup now!
+10:40:12.750 [               ] INFO  Chef                           - [Chef Julia] Released STOVE and BLENDER. Ready for next order!
+10:40:12.750 [               ] INFO  Chef                           - [Chef Julia] Clocking out for the day. Goodbye!
+10:40:12.750 [               ] INFO  Chef                           - [Chef Gordon] Clocking out for the day. Goodbye!
+10:40:12.750 [Test worker    ] INFO  KitchenSimulator               - ========================================
+  KITCHEN CLOSED&quot;);
+  Total orders served : 5
+========================================
 </pre>
 </span>
 </div>
@@ -236,7 +191,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.5</a> at Feb 10, 2026, 11:16:39 AM</p>
+<a href="http://www.gradle.org">Gradle 8.5</a> at Feb 11, 2026, 10:40:12 AM</p>
 </div>
 </div>
 </body>

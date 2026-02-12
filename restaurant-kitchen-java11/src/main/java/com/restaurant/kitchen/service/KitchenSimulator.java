@@ -31,7 +31,7 @@ public class KitchenSimulator {
     private AtomicBoolean runningFlag;
     private final AtomicInteger ordersCompleted = new AtomicInteger(0);
     private SimulationMode mode = SimulationMode.DEADLOCK;
-    private int chefCount = 2;
+    private int chefCount = 4;
     private final List<String> chefNames = new ArrayList<>();
 
     public KitchenSimulator(Stove stove, Blender blender) {

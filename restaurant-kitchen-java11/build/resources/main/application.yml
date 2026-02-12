@@ -7,4 +7,4 @@ spring:
       indent-output: true
 
 kitchen:
-  chef-count: 2
+  chef-count: 4

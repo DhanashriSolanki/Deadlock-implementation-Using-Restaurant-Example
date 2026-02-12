@@ -39,7 +39,7 @@ public class KitchenSimulatorTest {
         assertTrue( status.ordersCompleted() >= 0,"Should have completed 0 or more orders");
         assertNotNull( status.message(),"Status message should not be null");
         assertNotNull( status.chefNames(),"Chef names should not be null");
-        assertEquals( 2, status.chefNames().size(),"Should have 2 chefs");
+        assertEquals( 4, status.chefNames().size(),"Should have 4 chefs");
     }
 
     @Test

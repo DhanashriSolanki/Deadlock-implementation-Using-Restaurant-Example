@@ -40,3 +40,8 @@ ext{
     fibersLibrariesVersion = '1.+'
     log4jVersion = '2.17.+'
 }
+dependencies {
+    implementation "org.apache.camel:camel-core:${camelVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    implementation "com.ea.async:ea-async:${fibersLibrariesVersion}"
+}

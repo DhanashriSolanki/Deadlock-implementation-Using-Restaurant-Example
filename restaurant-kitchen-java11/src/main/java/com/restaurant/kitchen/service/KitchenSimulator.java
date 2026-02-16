@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.Executors;
 
 @Service
 public class KitchenSimulator {
@@ -50,26 +51,30 @@ public class KitchenSimulator {
         this.chefNames.clear();
         this.executor = Executors.newVirtualThreadPerTaskExecutor() ;
 
-        logger.info("========================================");
-        logger.info("  RESTAURANT KITCHEN SIMULATOR");
-        logger.info("  Mode  : {}", mode);
-        logger.info("  Chefs : {}", chefCount);
-        logger.info("========================================");
+        logger.info("""
+          ========================================
+          RESTAURANT KITCHEN SIMULATOR
+          Mode  : {}
+          Chefs : {}
+        ========================================""", mode, chefCount);
 
         if (mode == SimulationMode.DEADLOCK) {
-            logger.info("WARNING: Deadlock mode enabled!");
-            logger.info("  -> Even chefs grab STOVE first, then BLENDER");
-            logger.info("  -> Odd chefs grab BLENDER first, then STOVE");
-            logger.info("  -> This WILL cause a deadlock!");
+            logger.info("""
+            WARNING: Deadlock mode enabled!
+              -> Even chefs grab STOVE first, then BLENDER
+              -> Odd chefs grab BLENDER first, then STOVE
+              -> This WILL cause a deadlock!""");
         } else {
-            logger.info("Safe mode enabled.");
-            logger.info("  -> All chefs follow the same lock order: STOVE -> BLENDER");
-            logger.info("  -> No deadlock possible.");
+            logger.info("""
+            Safe mode enabled.
+              -> All chefs follow the same lock order: STOVE -> BLENDER
+              -> No deadlock possible.""");
         }
 
-        logger.info("========================================");
-        logger.info("  Opening the kitchen doors...");
-        logger.info("========================================");
+        logger.info("""
+         ========================================
+          Opening the kitchen doors...");
+        ========================================""");
 
         for (int i = 0; i < chefCount; i++) {
             Chef chef = new Chef(i, stove, blender, mode, ordersCompleted, runningFlag);
@@ -97,10 +102,11 @@ public class KitchenSimulator {
                 Thread.currentThread().interrupt();
             }
         }
-        logger.info("========================================");
-        logger.info("  KITCHEN CLOSED");
-        logger.info("  Total orders served : {}", ordersCompleted.get());
-        logger.info("========================================");
+        logger.info("""
+        ========================================
+          KITCHEN CLOSED");
+          Total orders served : {}
+        ========================================""", ordersCompleted.get());
     }
 
     public KitchenStatus getStatus() {

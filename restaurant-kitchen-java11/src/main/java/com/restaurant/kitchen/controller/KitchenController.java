@@ -23,7 +23,7 @@ public class KitchenController {
     public ResponseEntity<Map<String, Object>> home() {
         Map<String, Object> welcome = new LinkedHashMap<>();
         welcome.put("app", "Restaurant Kitchen Resource Manager");
-        welcome.put("description", "A Java 11 deadlock demonstration using Spring Boot");
+        welcome.put("description", "A Java 17 deadlock demonstration using Spring Boot");
         welcome.put("version", "1.0.0");
 
         Map<String, String> endpoints = new LinkedHashMap<>();

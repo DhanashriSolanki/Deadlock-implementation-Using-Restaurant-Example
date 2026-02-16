@@ -33,6 +33,8 @@ public class KitchenSimulator {
     private SimulationMode mode = SimulationMode.DEADLOCK;
     private int chefCount = 4;
     private final List<String> chefNames = new ArrayList<>();
+    private int lastOrderCount=0;
+    private long lastCheckTime=0;
 
     public KitchenSimulator(Stove stove, Blender blender) {
         this.stove = stove;
@@ -130,9 +132,22 @@ public class KitchenSimulator {
 
     private boolean detectDeadlock() {
         if (!running) return false;
-        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
-        long[] deadlockedThreads = bean.findDeadlockedThreads();
-        return deadlockedThreads != null && deadlockedThreads.length > 0;
+        long now=System.currentTimeMillis();
+        int currentOrders=ordersCompleted.get();
+
+        if(lastCheckTime==0){
+            lastCheckTime=now;
+            lastOrderCount=currentOrders;
+            return false;
+        }
+        if(now-lastCheckTime>2000){
+            if(currentOrders==lastOrderCount){
+                return true;
+            }
+            lastOrderCount=currentOrders;
+            lastCheckTime=now;
+        }
+        return false;
     }
 
     @PreDestroy

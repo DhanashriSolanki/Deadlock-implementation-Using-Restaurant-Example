@@ -21,19 +21,24 @@ public class KitchenController {
 
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> home() {
-        Map<String, Object> welcome = new LinkedHashMap<>();
+        /**
+         * Direct Java 11 -> 21 migration:
+         * - Explicit type declarations replaced with 'var' (local variable type inference)
+         * - LinkedHashMap now implements SequencedMap (JEP 431 - Sequenced Collections, Java 21)
+         */
+        var welcome = new LinkedHashMap<String,Object>();
         welcome.put("app", "Restaurant Kitchen Resource Manager");
-        welcome.put("description", "A Java 11 deadlock demonstration using Spring Boot");
+        welcome.put("description", "A Java 21 deadlock demonstration using Spring Boot");
         welcome.put("version", "1.0.0");
 
-        Map<String, String> endpoints = new LinkedHashMap<>();
+        var endpoints = new LinkedHashMap<String,Object>();
         endpoints.put("POST /api/kitchen/start?mode=DEADLOCK", "Start simulation in DEADLOCK mode (chefs will get stuck!)");
         endpoints.put("POST /api/kitchen/start?mode=SAFE", "Start simulation in SAFE mode (no deadlock)");
         endpoints.put("GET  /api/kitchen/status", "Check kitchen status, deadlock detection, orders served");
         endpoints.put("POST /api/kitchen/stop", "Stop the current simulation");
         welcome.put("endpoints", endpoints);
 
-        Map<String, String> howItWorks = new LinkedHashMap<>();
+        var howItWorks = new LinkedHashMap<String,Object>();
         howItWorks.put("DEADLOCK mode", "Chef Gordon grabs STOVE first, Chef Julia grabs BLENDER first. "
                 + "Both wait forever for each other's equipment. Classic deadlock!");
         howItWorks.put("SAFE mode", "Both chefs always grab STOVE first, then BLENDER. "
@@ -48,7 +53,7 @@ public class KitchenController {
         SimulationMode simMode = SimulationMode.valueOf(mode.toUpperCase());
         simulator.start(simMode);
 
-        Map<String, Object> response = new LinkedHashMap<>();
+        var response = new LinkedHashMap<String,Object>();
         response.put("status", "STARTED");
         response.put("mode", simMode.name());
 
@@ -72,18 +77,23 @@ public class KitchenController {
         KitchenStatus statusBeforeStop = simulator.getStatus();
         simulator.stop();
 
-        Map<String, Object> response = new LinkedHashMap<>();
+        var response = new LinkedHashMap<String,Object>();
         response.put("status", "STOPPED");
-        response.put("totalOrdersServed", statusBeforeStop.getOrdersCompleted());
-        response.put("wasDeadlocked", statusBeforeStop.isDeadlocked());
+        /**
+         * Direct Java 11 -> 21 migration:
+         * KitchenStatus is now a record, so accessor methods changed:
+         * getOrdersCompleted() -> ordersCompleted(), isDeadlocked() -> deadlocked()
+         */
+        response.put("totalOrdersServed", statusBeforeStop.ordersCompleted());
+        response.put("wasDeadlocked", statusBeforeStop.deadlocked());
 
-        if (statusBeforeStop.isDeadlocked()) {
+        if (statusBeforeStop.deadlocked()) {
             response.put("message", "Kitchen was DEADLOCKED when stopped. "
                     + "Both chefs were stuck waiting for each other. "
                     + "Zero orders completed - the restaurant lost money today!");
         } else {
             response.put("message", "Kitchen closed after serving "
-                    + statusBeforeStop.getOrdersCompleted() + " orders. Great shift!");
+                    + statusBeforeStop.ordersCompleted() + " orders. Great shift!");
         }
 
         return ResponseEntity.ok(response);

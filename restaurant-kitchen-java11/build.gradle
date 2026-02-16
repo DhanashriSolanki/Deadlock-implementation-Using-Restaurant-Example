@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.0'
+    id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -12,8 +12,8 @@ group = 'com.restaurant'
 version = '1.0.0'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 configurations {
@@ -25,23 +25,23 @@ configurations {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
-    useJUnit()
+    useJUnitPlatform()
     testLogging {
         events 'passed', 'failed', 'skipped'
         showStandardStreams = true
     }
 }
 ext{
-    camelVersion = '2.25.4'
-    fibersLibrariesVersion = '1.+'
-    log4jVersion = '2.17.+'
+    camelVersion = '4.4.3'
+    fibersLibrariesVersion = '2.+'
+    log4jVersion = '2.21.1'
 }
 dependencies {
     implementation "org.apache.camel:camel-core:${camelVersion}"
     implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
-    implementation "com.ea.async:ea-async:${fibersLibrariesVersion}"
+    implementation "org.db4j:kilim:${fibersLibrariesVersion}"
 }

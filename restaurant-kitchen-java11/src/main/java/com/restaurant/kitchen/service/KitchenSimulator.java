@@ -9,13 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-/**
- * Java 17 migration: javax.annotation.PreDestroy -> jakarta.annotation.PreDestroy
- * Spring Boot 3.x migrated from Java EE (javax) to Jakarta EE (jakarta) namespace.
- */
 import jakarta.annotation.PreDestroy;
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -37,6 +31,14 @@ public class KitchenSimulator {
     private SimulationMode mode = SimulationMode.DEADLOCK;
     private int chefCount = 4;
     private final List<String> chefNames = new ArrayList<>();
+    /**
+     * Java 21 migration: Added progress-tracking fields for deadlock detection.
+     * ThreadMXBean.findDeadlockedThreads() cannot detect deadlocks involving virtual threads
+     * (virtual threads are not platform threads). Instead, we monitor order progress over time:
+     * if no new orders are completed within a time window, a deadlock is inferred.
+     */
+    private int lastOrderCount = 0;
+    private long lastCheckTime = 0;
 
     public KitchenSimulator(Stove stove, Blender blender) {
         this.stove = stove;
@@ -52,13 +54,19 @@ public class KitchenSimulator {
         this.ordersCompleted.set(0);
         this.runningFlag = new AtomicBoolean(true);
         this.chefNames.clear();
-        this.executor = Executors.newFixedThreadPool(chefCount);
-
         /**
-         * Java 17 migration: Replaced multiple logger.info() calls with text blocks (Java 15 feature).
-         * Text blocks use triple-quote """ syntax for multi-line strings, eliminating
-         * the need for string concatenation or multiple log statements.
+         * Java 21 migration: Replaced Executors.newFixedThreadPool(chefCount) with
+         * Executors.newVirtualThreadPerTaskExecutor() (JEP 444 - Virtual Threads).
+         *
+         * Virtual threads are lightweight threads managed by the JVM, not the OS.
+         * They are ideal for I/O-bound and blocking tasks:
+         * - Platform threads: ~1MB stack each, limited by OS (thousands max)
+         * - Virtual threads: ~few KB each, millions possible
+         *
+         * Each chef now runs on its own virtual thread instead of a pooled platform thread.
          */
+        this.executor = Executors.newVirtualThreadPerTaskExecutor();
+
         logger.info("""
         ========================================
           RESTAURANT KITCHEN SIMULATOR
@@ -142,11 +150,33 @@ public class KitchenSimulator {
         );
     }
 
+    /**
+     * Java 21 migration: Replaced ThreadMXBean-based deadlock detection with progress-based detection.
+     *
+     * Before (Java 17): ThreadMXBean.findDeadlockedThreads() - only works with platform threads.
+     * After  (Java 21): Monitor order progress - if no orders complete within 2 seconds, infer deadlock.
+     *
+     * This approach works with virtual threads and is actually a more practical detection strategy
+     * for real-world applications where "no progress" is the observable symptom of a deadlock.
+     */
     private boolean detectDeadlock() {
         if (!running) return false;
-        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
-        long[] deadlockedThreads = bean.findDeadlockedThreads();
-        return deadlockedThreads != null && deadlockedThreads.length > 0;
+        long now = System.currentTimeMillis();
+        int currentOrders = ordersCompleted.get();
+
+        if (lastCheckTime == 0) {
+            lastCheckTime = now;
+            lastOrderCount = currentOrders;
+            return false;
+        }
+        if (now - lastCheckTime > 2000) {
+            if (currentOrders == lastOrderCount) {
+                return true;
+            }
+            lastOrderCount = currentOrders;
+            lastCheckTime = now;
+        }
+        return false;
     }
 
     @PreDestroy

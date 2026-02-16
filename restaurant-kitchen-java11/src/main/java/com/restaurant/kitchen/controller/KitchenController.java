@@ -22,14 +22,13 @@ public class KitchenController {
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> home() {
         /**
-         * Java 17 migration: Replaced explicit type declarations with 'var' (local variable type inference).
-         * The compiler infers the type from the right-hand side expression.
-         * Before: Map<String, Object> welcome = new LinkedHashMap<>();
-         * After:  var welcome = new LinkedHashMap<String, Object>();
+         * Java 21 migration: LinkedHashMap now implements SequencedMap (JEP 431 - Sequenced Collections).
+         * SequencedMap adds methods like putFirst(), putLast(), firstEntry(), reversed().
+         * While we still instantiate LinkedHashMap, the type system now recognizes its ordering guarantees.
          */
         var welcome = new LinkedHashMap<String, Object>();
         welcome.put("app", "Restaurant Kitchen Resource Manager");
-        welcome.put("description", "A Java 17 deadlock demonstration using Spring Boot");
+        welcome.put("description", "A Java 21 deadlock demonstration using Spring Boot");
         welcome.put("version", "1.0.0");
 
         var endpoints = new LinkedHashMap<String, Object>();
@@ -80,11 +79,6 @@ public class KitchenController {
 
         var response = new LinkedHashMap<String, Object>();
         response.put("status", "STOPPED");
-        /**
-         * Java 17 migration: KitchenStatus is now a record, so accessor methods changed.
-         * Before (POJO):  statusBeforeStop.getOrdersCompleted(), statusBeforeStop.isDeadlocked()
-         * After  (Record): statusBeforeStop.ordersCompleted(), statusBeforeStop.deadlocked()
-         */
         response.put("totalOrdersServed", statusBeforeStop.ordersCompleted());
         response.put("wasDeadlocked", statusBeforeStop.deadlocked());
 

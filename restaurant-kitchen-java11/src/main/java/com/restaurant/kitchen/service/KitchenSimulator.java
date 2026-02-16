@@ -48,7 +48,7 @@ public class KitchenSimulator {
         this.ordersCompleted.set(0);
         this.runningFlag = new AtomicBoolean(true);
         this.chefNames.clear();
-        this.executor = Executors.newFixedThreadPool(chefCount);
+        this.executor = Executors.newVirtualThreadPerTaskExecutor() ;
 
         logger.info("========================================");
         logger.info("  RESTAURANT KITCHEN SIMULATOR");

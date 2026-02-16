@@ -74,16 +74,16 @@ public class KitchenController {
 
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("status", "STOPPED");
-        response.put("totalOrdersServed", statusBeforeStop.getOrdersCompleted());
-        response.put("wasDeadlocked", statusBeforeStop.isDeadlocked());
+        response.put("totalOrdersServed", statusBeforeStop.ordersCompleted());
+        response.put("wasDeadlocked", statusBeforeStop.deadlocked());
 
-        if (statusBeforeStop.isDeadlocked()) {
+        if (statusBeforeStop.deadlocked()) {
             response.put("message", "Kitchen was DEADLOCKED when stopped. "
                     + "Both chefs were stuck waiting for each other. "
                     + "Zero orders completed - the restaurant lost money today!");
         } else {
             response.put("message", "Kitchen closed after serving "
-                    + statusBeforeStop.getOrdersCompleted() + " orders. Great shift!");
+                    + statusBeforeStop.ordersCompleted() + " orders. Great shift!");
         }
 
         return ResponseEntity.ok(response);

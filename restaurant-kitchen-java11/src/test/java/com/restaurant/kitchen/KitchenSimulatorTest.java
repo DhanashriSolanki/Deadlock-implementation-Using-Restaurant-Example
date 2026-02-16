@@ -34,11 +34,11 @@ public class KitchenSimulatorTest {
         Thread.sleep(700);
         KitchenStatus status = simulator.getStatus();
 
-        assertFalse(status.isDeadlocked(),"Safe mode should never deadlock");
-        assertTrue( status.getOrdersCompleted() >= 0,"Should have completed 0 or more orders");
-        assertNotNull( status.getMessage(),"Status message should not be null");
-        assertNotNull( status.getChefNames(),"Chef names should not be null");
-        assertEquals( 4, status.getChefNames().size(),"Should have 4 chefs");
+        assertFalse(status.deadlocked(),"Safe mode should never deadlock");
+        assertTrue( status.ordersCompleted() >= 0,"Should have completed 0 or more orders");
+        assertNotNull( status.message(),"Status message should not be null");
+        assertNotNull( status.chefNames(),"Chef names should not be null");
+        assertEquals( 4, status.chefNames().size(),"Should have 4 chefs");
     }
 
     @Test
@@ -53,7 +53,7 @@ public class KitchenSimulatorTest {
         KitchenStatus status = simulator.getStatus();
 
         assertTrue(
-                status.isRunning() || status.isDeadlocked(),"Should be running or deadlocked");
-        assertNotNull( status.getMessage(),"Status message should not be null");
+                status.running() || status.deadlocked(),"Should be running or deadlocked");
+        assertNotNull( status.message(),"Status message should not be null");
     }
 }
